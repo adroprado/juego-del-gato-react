@@ -44,6 +44,14 @@ const JuegoDelGato = () => {
     return hayGanador;
   };
 
+  // --- función que reinicia partida ---
+  const reiniciarPartida = () => {
+    // Reinicia el estado lógico de las variables
+    setTablero(Array(9).fill(""));
+    setFinDelJuego(false);
+    setTurnoJugador("❌");
+  };
+
   const manejarClickCasilla = (iCasilla) => {
     // Detiene cualquier interacción con el tablero, si detecta un ganador
     if (finDelJuego === true) return null;
@@ -67,6 +75,9 @@ const JuegoDelGato = () => {
           // ó "⭕"
           setPuntosO((prevPuntos) => prevPuntos + 1);
         }
+        // Llamada automática al reinicio con temporizador
+        setTimeout(reiniciarPartida, 2000);
+        return;
       }
 
       // Alternancia de turno. solo si no hay gandor
