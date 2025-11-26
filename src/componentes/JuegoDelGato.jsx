@@ -45,7 +45,7 @@ const JuegoDelGato = () => {
   };
 
   // --- función que verifica empate ---
-  const verificarEmapte = (tablero) => {
+  const verificarEmpate = (tablero) => {
     // Verifica que no haya cadenas vacías
     const TABLERO_LLENO = !tablero.includes("");
     if (TABLERO_LLENO) {
@@ -92,7 +92,7 @@ const JuegoDelGato = () => {
       }
 
       // Verifica empate
-      const EMPATE = verificarEmapte(copiaTablero);
+      const EMPATE = verificarEmpate(copiaTablero);
       if (EMPATE) {
         // Llamada automática al reinicio con temporizador
         setTimeout(reiniciarPartida, 2000);
@@ -106,6 +106,12 @@ const JuegoDelGato = () => {
         setTurnoJugador("⭕");
       }
     }
+  };
+
+  const manejarClickReiniciarMarcador = () => {
+    // Reinicia el estado lógico de las variables y  Reinicia visualización en el DOM
+    setPuntosX(0);
+    setPuntosO(0);
   };
 
   return (
@@ -134,6 +140,7 @@ const JuegoDelGato = () => {
           className="btn-reiniciar"
           type="button"
           value="Reiniciar Marcador"
+          onClick={manejarClickReiniciarMarcador}
         />
       </section>
 
