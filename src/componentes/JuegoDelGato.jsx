@@ -44,6 +44,17 @@ const JuegoDelGato = () => {
     return hayGanador;
   };
 
+  // --- función que verifica empate ---
+  const verificarEmapte = (tablero) => {
+    // Verifica que no haya cadenas vacías
+    const TABLERO_LLENO = !tablero.includes("");
+    if (TABLERO_LLENO) {
+      setFinDelJuego(true); // Correcto: detiene el juego
+      return true; // Correcto: indica que la partida ha terminado por empate
+    }
+    return false;
+  };
+
   // --- función que reinicia partida ---
   const reiniciarPartida = () => {
     // Reinicia el estado lógico de las variables
@@ -80,6 +91,14 @@ const JuegoDelGato = () => {
         return;
       }
 
+      // Verifica empate
+      const EMPATE = verificarEmapte(copiaTablero);
+      if (EMPATE) {
+        // Llamada automática al reinicio con temporizador
+        setTimeout(reiniciarPartida, 2000);
+        return;
+      }
+
       // Alternancia de turno. solo si no hay gandor
       if (turnoJugador === "⭕") {
         setTurnoJugador("❌");
@@ -87,9 +106,6 @@ const JuegoDelGato = () => {
         setTurnoJugador("⭕");
       }
     }
-
-    // --- función que verifica empate ---
-    //const verificarEmpate = () => {};
   };
 
   return (
