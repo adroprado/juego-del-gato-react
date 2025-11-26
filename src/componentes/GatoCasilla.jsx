@@ -1,5 +1,4 @@
 const GatoCasilla = ({ casilla, manejarClickCasilla, tablero }) => {
-  console.log(tablero);
   return (
     <>
       <td

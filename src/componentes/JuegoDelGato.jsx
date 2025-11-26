@@ -1,15 +1,52 @@
 import { useState } from "react";
 import GatoTabla from "./GatoTabla";
 
+const COMBINACION_PARA_GANAR = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
 const JuegoDelGato = () => {
   const [tablero, setTablero] = useState(Array(9).fill(""));
   const [turnoJugador, setTurnoJugador] = useState("❌");
-  const [finDelTurnoJugador, setFinDelTurnoJugador] = useState(false);
+  const [finDelJuego, setFinDelJuego] = useState(false);
   const [puntosX, setPuntosX] = useState(0);
   const [puntosO, setPuntosO] = useState(0);
 
+  // --- función que verifica si hay un posible ganador ---
+  const verificarGanador = (tablero) => {
+    // Recorremos array de posibles combinaciones ganadoras
+    const hayGanador = COMBINACION_PARA_GANAR.some((conjunto) => {
+      // Destructuramos la combinación
+      const [a, b, c] = conjunto;
+
+      // Condición de victoria
+      if (
+        tablero[a] !== "" &&
+        tablero[a] === tablero[b] &&
+        tablero[a] === tablero[c]
+      ) {
+        return true;
+      }
+    });
+
+    // Si detecta ganador, coloca la variable global finDelJuego a true
+    if (hayGanador) {
+      setFinDelJuego(true);
+    }
+    // Y devuelve un Booleano
+    return hayGanador;
+  };
+
   const manejarClickCasilla = (iCasilla) => {
-    console.log(iCasilla);
+    // Detiene cualquier interacción con el tablero, si detecta un ganador
+    if (finDelJuego === true) return null;
 
     const copiaTablero = [...tablero];
 
@@ -17,7 +54,20 @@ const JuegoDelGato = () => {
     if (copiaTablero[iCasilla] === "") {
       copiaTablero[iCasilla] = turnoJugador; // Marca en el arreglo el valor
       setTablero(copiaTablero); // Actualizamos variable tablero con la copia. Dispara el re-renderizado
-      console.log(copiaTablero);
+
+      // Almacena el resultado de la verificación
+      const GANADOR = verificarGanador(copiaTablero);
+
+      // Verificación de puntaje y victoria
+      if (GANADOR) {
+        // ¿Quién gano? turno actual "❌"
+        if (turnoJugador === "❌") {
+          setPuntosX((prevPuntos) => prevPuntos + 1);
+        } else {
+          // ó "⭕"
+          setPuntosO((prevPuntos) => prevPuntos + 1);
+        }
+      }
 
       // Alternancia de turno. solo si no hay gandor
       if (turnoJugador === "⭕") {
@@ -26,6 +76,9 @@ const JuegoDelGato = () => {
         setTurnoJugador("⭕");
       }
     }
+
+    // --- función que verifica empate ---
+    //const verificarEmpate = () => {};
   };
 
   return (
