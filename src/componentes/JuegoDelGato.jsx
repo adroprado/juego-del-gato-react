@@ -119,7 +119,10 @@ const JuegoDelGato = () => {
       <section className="contenedor">
         <article className="encabezado">
           <h1>Juego del Gato</h1>
-          <a href="" target="_blank">
+          <a
+            href="https://github.com/adroprado/juego-del-gato-react"
+            target="_blank"
+          >
             <img src="/src/assets/github.svg" alt="Github" />
           </a>
         </article>
